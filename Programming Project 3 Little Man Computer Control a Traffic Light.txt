@@ -1,0 +1,112 @@
+Programming Project #3
+
+This is the third of 3 programs that will be written for this class. 
+
+This program #3, you are required to develop a program that controls a traffic light. There are North/South lanes and East/West lanes.
+The North/South lanes have a left hand signal. The left turn is enabled by digits 0, 5, 10, 15.  Please see flow chart.  Yes the output is somewhat
+Cryptic however for an example why not
+Please noticed this is a continuous loop program.  At the beginning, and not part of the loop, 2 values are entered for N/S green time and W/E time
+ 
+Time in this program is the number of loops the software must make. A light turning yellow is 3 loop times.
+
+And the N/S left turn time is 1/3 of the user provided N/S green time.
+This program is subject to creeping featurism. It is easy to run out of space. Keep focused. Ask questions.
+ 
+Good luck
+
+
+          INP             // Input
+          STA NS_GREEN    // Store at north south green
+LT_GREEN  SUB THREE       // Subtract three
+          STA TEMP        // Store at temp
+          BRP LOOP        // At positive go to LOOP
+          BR  NEXT        // Move to NEXT is it is not positive
+LOOP      LDA LT_GREEN_TM // Load light green time
+          ADD ONE         // Add one
+          STA LT_GREEN_TM // Store light green time 
+          LDA TEMP        // Load the temp value
+          BR  LT_GREEN    // Repeat the loop
+NEXT      INP             // Input
+          STA EW_GREEN    // Store east west green
+          
+L_RRGR    LDA 251         // Load rrgr
+          OUT             // Output the 251
+          LDA NS_GREEN    // Load north south green
+S_RRGR    SUB ONE         // Subtract one
+          BRP S_RRGR      // Loop until not positive
+L_RRYR    LDA RRYR        // load rryr
+          OUT             // Output rryr
+S_RRYR    SUB TWO         // Subtract two          
+          BRP S_RRYR      // Repeat until not positive
+          INP             // Input for left turn 0,5,10,15
+          SUB 5           // Subtract 5
+          BRZ L_RBRG      // At zero it is rbrg
+          BRA L_GGRR      // At negative it is ggrr
+          BRP HIGHER      // At positive go to higher
+HIGHER    SUB 10          // Subtract 10
+          BRZ L_RRRG      // At zero it is rrrg
+          BRA L_BRRG      // At negative it is brrg
+L_RBRG    LDA SIX         // Load six      
+GREEN_LT  SUB ONE         // Subtract one
+          BRZ L_RBRY      // At zero go to yellow light
+          BRP GREEN_LT    // Repeat the six intervals
+L_RBRY    LDA THREE       // Load three
+YELLOW_LT SUB ONE         // Subtract one
+          BRZ L_GGRR      // At zero go to green light
+          BRP YELLOW_LT   // Repeat the three intervals
+
+L_BRRG    LDA SIX         // Load six      
+GREN_LT   SUB ONE         // Subtract one
+          BRZ L_BRRY      // At zero go to yellow light
+          BRP GREN_LT     // Repeat the six intervals
+L_BRRY    LDA THREE       // Load three
+YEW_LT SUB ONE            // Subtract one
+          BRZ L_GGRR      // At zero go to green light
+          BRP YEW_LT      // Repeat the three intervals
+L_RRRG    LDA SIX         // Load six      
+GREE_LT   SUB ONE         // Subtract one
+          BRZ L_RRRG      // At zero go to yellow light
+          BRP GREE_LT     // Repeat the six intervals
+L_RRRY    LDA THREE       // Load three
+YELL_LT   SUB ONE         // Subtract one
+          BRZ L_GGRR      // At zero go to green light
+          BRP YELL_LT     // Repeat the three intervals
+L_GGRR    LDA SIX         // Load six      
+GRN_LT    SUB ONE         // Subtract one
+          BRZ L_YYRR      // At zero go to yellow light
+          BRP GRN_LT      // Repeat the six intervals
+L_YYRR    LDA THREE       // Load three
+YELLOW_LT SUB ONE         // Subtract one
+          BRZ L_RRGR      // At zero go to green light
+          BRP YELLOW_LT   // Repeat the three intervals              
+
+
+NS_GREEN  DAT             // Store north south green
+EW_GREEN  DAT             // Store east west green
+LT_GREEN_TM DAT           // Store light green time               
+TEMP    DAT               // Temporary storage
+ZERO    DAT  0            // Stores a starting zero
+ONE     DAT  1            // Stores a starting one
+TWO     DAT  2            // Stores a starting two
+THREE   DAT  3            // Stores a starting three
+SIX     DAT  6            // Stores a starting seven
+ELEVEN  DAT  11           // Stores a starting eleven
+RRGR    DAT 251           // State of the program
+RRYR    DAT 247           // State of the program
+GGRR    DAT 175           // State of the program
+YYRR    DAT 95            // State of the program
+RBRG    DAT 206           // State of the program
+RBRY    DAT 205           // State of the program
+BRRG    DAT 62            // State of the program
+BRRY    DAT 61            // State of the program
+RRRG    DAT 254           // State of the program
+RRRY    DAT 253           // State of the program
+
+
+
+
+
+
+
+
+

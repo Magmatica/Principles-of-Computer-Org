@@ -1,0 +1,90 @@
+
+Programming Project #1
+
+This is the first of 3 programs that will be written for this class. 
+
+This program #1, you are required to develop a program that takes a numeric input (0 to 63) and converts it to binary. 
+You will use the LMC (Little Man Computer) for this program. The LMC is a decimal only machine
+ and outputs 3 digits (000 - 999). Since 2^6 is 64 combinations, 2 numbers will be output. For example
+a 24 is entered, first digit out is 011 and second is 000.  Another, 33 input yields a 100 001.
+You can have a infinite loop or a stop input. The output has leading zero suppression. So a blank is considered a zero
+
+
+CODE GOES DOWN HERE!!!
+ 
+        INP           // Starts with receiving user input
+        STA TOTAL     // Stores the given value into memory address TOTAL
+        SUB BIT32     // Subtracts the value located at memory address BIT32
+        BRP ADD1ST    // If the outcome is positive, move to ADD1ST line
+        BRA CHECKMID  // If the outcome is negative, move to the CHECKMID line
+ADD1ST  LDA TOTAL     // Move value stored in TOTAL to the accumulator
+        SUB BIT32     // Subtracts the value located at memory address BIT32
+        STA TOTAL     // Store the outcome in memory address TOTAL
+        LDA FIRST     // Loads the 1st half of the binary output
+        ADD LEFT      // Adds 100 to move into first position of binary
+        STA FIRST     // Stores new value into FIRST
+CHECKMID LDA TOTAL    // Moves value stored in TOTAL to accumulator
+        SUB BIT16     // Subtracts the value located at memory address BIT16  
+        BRP ADDMID    // If outcome is positive, move to ADDMID line
+        BRA CHECKLAST // If outcome is negative move to CHECKLAST line
+ADDMID  LDA TOTAL     // Move value stored in TOTAL to accumulator
+        SUB BIT16     // Subtracts the value located at memory address BIT16 
+        STA TOTAL     // Store the outcome in memory address TOTAL        
+        LDA FIRST     // Loads the 1st half of the binary output
+        ADD MID       // Adds 010 to move into second position of binary
+        STA FIRST     // Stores new value into FIRST
+CHECKLAST LDA TOTAL   // Moves value stored in TOTAL to accumulator
+        SUB BIT8      // Subtracts the value located at memory address BIT8
+        BRP ADDLAST   // If outcome is positive, move to ADDLAST line
+        BRA CHECKFIRST2 // If outcome is negative move to CHECKFIRST2 line
+ADDLAST LDA TOTAL     // Move value stored in TOTAL to accumulator
+        SUB BIT8      // Subtracts the value located at memory address BIT8
+        STA TOTAL     // Store the outcome in memory address TOTAL  
+        LDA FIRST     // Loads the 1st half of the binary output
+        ADD RIGHT     // Adds 001 to move into THIRD position of binary
+        STA FIRST     // Stores new value into FIRST
+CHECKFIRST2 LDA TOTAL // Moves value stored in TOTAL to accumulator
+        SUB BIT4      // Subtracts the value located at memory address BIT4
+        BRP ADDFIRST2 // If outcome is positive, move to ADDFIRST2 line
+        BRA CHECKMID2 // If outcome is negative move to CHECKMID2 line
+ADDFIRST2 LDA TOTAL   // Move value stored in TOTAL to accumulator
+        SUB BIT4      // Subtracts the value located at memory address BIT4  
+        STA TOTAL     // Store the outcome in memory address TOTAL 
+        LDA 2ND       // Loads the 1st half of the binary output
+        ADD LEFT      // Adds 100 to move into FOURTH position of binary
+        STA 2ND       // Stores new value into 2ND
+CHECKMID2 LDA TOTAL   // Move value stored in TOTAL to accumulator
+        SUB BIT2      // Subtracts the value located at memory address BIT2
+        BRP ADDMID2   // If outcome is positive, move to ADDMID2 line
+        BRA CHECKLAST2 // If outcome is negative move to CHECKLAST2 line
+ADDMID2 LDA TOTAL     // Move value stored in TOTAL to accumulator
+        SUB BIT2      // Subtracts the value located at memory address BIT2  
+        STA TOTAL     // Store the outcome in memory address TOTAL 
+        LDA 2ND       // Loads the 1st half of the binary output
+        ADD MID       // Adds 010 to move into FOURTH position of binary
+        STA 2ND       // Stores new value into 2ND        
+CHECKLAST2 LDA TOTAL  // Move value stored in TOTAL to accumulator
+        SUB BIT1      // Subtracts the value located at memory address BIT1
+        BRP ADDLAST2  // If outcome is positive, move to ADDLAST2 line
+        BRA DONE      // If outcome is negative move to DONE line        
+ADDLAST2 LDA 2ND      // Move value stored in TOTAL to accumulator
+        ADD RIGHT     // Adds 001 to move into the binary
+        STA 2ND       // Store the outcome in memory address 2ND
+DONE    LDA FIRST     // Load FIRST into the accumulator        
+        OUT           // Displays the accumulator to the user
+        LDA 2ND       // Load 2ND into the accumulator        
+        OUT           // Displays the accumulator to the user
+BIT64   DAT 064        // 2^6TH Stored for possible use
+BIT32   DAT 032        // 2^5TH Stored for possible use
+BIT16   DAT 016        // 2^4TH Stored for possible use
+BIT8    DAT 008        // 2^3TH Stored for possible use
+BIT4    DAT 004        // 2^2TH Stored for possible use
+BIT2    DAT 002        // 2^1TH Stored for possible use
+BIT1    DAT 001        // 2^0TH Stored for possible use
+FIRST   DAT 000        // First half of the binary output
+2ND     DAT 000        // Second half of the binary output
+LEFT    DAT 100        // Used to update 6th and 3rd binary bits
+MID     DAT 010        // Used to update 5th and 2nd binary bits
+RIGHT   DAT 001        // Used to update 4th and 1st binary bits
+TOTAL   DAT 098        // Tracks subtotal as the code proceeds
+
